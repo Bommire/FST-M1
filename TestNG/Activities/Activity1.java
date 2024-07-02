@@ -1,42 +1,21 @@
-package Activitys;
+package Project;
 
-import org.testng.annotations.Test;
-
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-import org.testng.annotations.BeforeClass;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-
 public class Activity1 {
-	    WebDriver driver;
-	    
-	    @BeforeClass
-	    public void beforeMethod() {
-	        WebDriverManager.firefoxdriver().setup();
-	        driver = new FirefoxDriver();
-	        driver.get("https://v1.training-support.net");
-	    }
-
-	    @Test
-	    public void exampleTestCase() {
-	    	
-	        String title = driver.getTitle();
-	        System.out.println("Page title is: " + title);
-	        Assert.assertEquals("Training Support", title);
-	        driver.findElement(By.id("about-link")).click();
-	        System.out.println("New page title is: " + driver.getTitle());
-	        Assert.assertEquals(driver.getTitle(), "About Training Support");
-	      
-	    }
-	    @AfterClass
-	    public void afterMethod() {
-	        driver.quit();
-	    }
-
-
+    public static void main(String[] args) {
+    	WebDriverManager.firefoxdriver().setup();
+        WebDriver driver = new FirefoxDriver();
+        driver.get("http://alchemy.hguy.co/orangehrm");
+        String pageTitle = driver.getTitle();
+        if (pageTitle.equals("OrangeHRM")) {
+            System.out.println("Website title is verified: " + pageTitle);
+        } else {
+            System.out.println("Website title verification failed. Actual title is: " + pageTitle);
+        }
+        driver.quit();
+    }
 }

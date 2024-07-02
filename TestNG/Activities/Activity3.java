@@ -1,41 +1,36 @@
-package Activitys;
+package Project;
 
-import org.testng.annotations.Test;
-
-import io.github.bonigarcia.wdm.WebDriverManager;
-
-import org.testng.annotations.BeforeClass;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.testng.Assert;
-import org.testng.annotations.AfterClass;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class Activity3 {
-    WebDriver driver;
-	    @BeforeClass
-	    public void beforeClass() {
-	        WebDriverManager.firefoxdriver().setup();
-	        driver = new FirefoxDriver();
-	        driver.get("https://v1.training-support.net/selenium/login-form");
-	    }
 
-	    @Test
-	    public void loginTest() {
-	        WebElement username = driver.findElement(By.id("username"));
-	        WebElement password = driver.findElement(By.id("password"));
-	        username.sendKeys("admin");
-	        password.sendKeys("password");
-	        driver.findElement(By.xpath("//button[text()='Log in']")).click();
-	        String loginMessage = driver.findElement(By.id("action-confirmation")).getText();
-	        Assert.assertEquals("Welcome Back, admin", loginMessage);
-	    }
-
-	    @AfterClass
-	    public void afterClass() {
-	        driver.close();
-	    }
-	}
-
+    public static void main(String[] args) {
+    	WebDriverManager.firefoxdriver().setup();
+        WebDriver driver = new FirefoxDriver();
+        driver.manage().window().maximize();
+        driver.get("http://alchemy.hguy.co/orangehrm");
+        WebElement usernameField = driver.findElement(By.id("txtUsername"));
+        WebElement passwordField = driver.findElement(By.id("txtPassword"));
+        WebElement loginButton = driver.findElement(By.id("btnLogin"));
+        usernameField.sendKeys("orange");
+        passwordField.sendKeys("orangepassword123");
+        loginButton.click();
+        WebDriverWait wait = new WebDriverWait(driver, null);
+        wait.until(ExpectedConditions.urlContains("/dashboard"));
+        String currentUrl = driver.getCurrentUrl();
+        if (currentUrl.contains("/dashboard")) {
+            System.out.println("Login successful. Homepage opened.");
+        } else {
+            System.out.println("Login failed. Homepage not opened.");
+        }
+        driver.close();
+    }
+}
 
